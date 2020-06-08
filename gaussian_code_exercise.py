@@ -1,7 +1,8 @@
 import math
 import matplotlib.pyplot as plt
 from distribution import Distribution
-class Gaussian():
+
+class Gaussian(Distribution):
     """ Gaussian distribution class for calculating and 
     visualizing a Gaussian distribution.
     
@@ -11,26 +12,35 @@ class Gaussian():
         data_list (list of floats) a list of floats extracted from the data file
             
     """
-    def __init__(self, mu = 0, sigma = 1):
+    def __init__(self, mu=0, sigma=1):
         
-       Distribution.__init__(self, mu, sigma)
-
-
+        Distribution.__init__(self, mu, sigma)
+    
+        
     
     def calculate_mean(self):
-        """ Function to calculate the mean of the data set. 
-
-        Args: None
-
-        Returns: float: mean of the data set
+    
+        """Function to calculate the mean of the data set.
+        
+        Args: 
+            None
+        
+        Returns: 
+            float: mean of the data set
+    
         """
-        avg = 1.0 * sum(self.data) /len(self.data)
+                    
+        avg = 1.0 * sum(self.data) / len(self.data)
+        
         self.mean = avg
+        
         return self.mean
+
+
 
     def calculate_stdev(self, sample=True):
 
-        """Method to calculate the standard deviation of the data set.
+        """Function to calculate the standard deviation of the data set.
         
         Args: 
             sample (bool): whether the data represents a sample or population
@@ -40,69 +50,28 @@ class Gaussian():
     
         """
 
-        # TODO:
-        #   Calculate the standard deviation of the data set
-        #   
-        #   The sample variable determines if the data set contains a sample or a population
-        #   If sample = True, this means the data is a sample. 
-        #   Keep the value of sample in mind for calculating the standard deviation
-        #
-        #   Make sure to update self.stdev and return the standard deviation as well    
-            
         if sample:
             n = len(self.data) - 1
         else:
             n = len(self.data)
-
-        mean = self.mean
-
+    
+        mean = self.calculate_mean()
+    
         sigma = 0
-
+    
         for d in self.data:
             sigma += (d - mean) ** 2
         
         sigma = math.sqrt(sigma / n)
-
+    
         self.stdev = sigma
-
+        
         return self.stdev
         
-
-    def read_data_file(self, file_name, sample=True):
-    
-        """Method to read in data from a txt file. The txt file should have
-        one number (float) per line. The numbers are stored in the data attribute. 
-        After reading in the file, the mean and standard deviation are calculated
-                
-        Args:
-            file_name (string): name of a file to read from
         
-        Returns:
-            None
-        
-        """
-        
-        # This code opens a data file and appends the data to a list called data_list
-        with open(file_name) as file:
-            data_list = []
-            line = file.readline()
-            while line:
-                data_list.append(int(line))
-                line = file.readline()
-        file.close()
-    
-        # TODO: 
-        #   Update the self.data attribute with the data_list
-        #   Update self.mean with the mean of the data_list. 
-        #       You can use the calculate_mean() method with self.calculate_mean()
-        #   Update self.stdev with the standard deviation of the data_list. Use the 
-        #       calcaulte_stdev() method.
-        self.data = data_list
-        self.mean = self.calculate_mean()
-        self.stdev = self.calculate_stdev(sample)
         
     def plot_histogram(self):
-        """Method to output a histogram of the instance variable data using 
+        """Function to output a histogram of the instance variable data using 
         matplotlib pyplot library.
         
         Args:
@@ -111,14 +80,12 @@ class Gaussian():
         Returns:
             None
         """
-        
-        # TODO: Plot a histogram of the data_list using the matplotlib package.
-        #       Be sure to label the x and y axes and also give the chart a title
         plt.hist(self.data)
         plt.title('Histogram of Data')
         plt.xlabel('data')
         plt.ylabel('count')
-                
+        
+        
         
     def pdf(self, x):
         """Probability density function calculator for the gaussian distribution.
@@ -131,13 +98,12 @@ class Gaussian():
             float: probability density function output
         """
         
-        # TODO: Calculate the probability density function of the Gaussian distribution
-        #       at the value x. You'll need to use self.stdev and self.mean to do the calculation
-        return(1.0/ (self.stdev * math.sqrt(2 * math.pi))) * math.exp(-0.5*((x-self.mean)/ self.stdev)** 2)        
+        return (1.0 / (self.stdev * math.sqrt(2*math.pi))) * math.exp(-0.5*((x - self.mean) / self.stdev) ** 2)
+        
 
     def plot_histogram_pdf(self, n_spaces = 50):
 
-        """Method to plot the normalized histogram of the data and a plot of the 
+        """Function to plot the normalized histogram of the data and a plot of the 
         probability density function along the same range
         
         Args:
@@ -148,8 +114,6 @@ class Gaussian():
             list: y values for the pdf plot
             
         """
-        
-        #TODO: Nothing to do for this method. Try it out and see how it works.
         
         mu = self.mean
         sigma = self.stdev
@@ -182,7 +146,7 @@ class Gaussian():
         plt.show()
 
         return x, y
-
+        
     def __add__(self, other):
         
         """Function to add together two Gaussian distributions
