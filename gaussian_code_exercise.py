@@ -63,7 +63,7 @@ class Gaussian():
         for d in self.data:
             sigma += (d - mean) ** 2
         
-        sigma = math.sqrt(sigma/n)
+        sigma = math.sqrt(sigma / n)
 
         self.stdev = sigma
 
@@ -135,7 +135,7 @@ class Gaussian():
         
         # TODO: Calculate the probability density function of the Gaussian distribution
         #       at the value x. You'll need to use self.stdev and self.mean to do the calculation
-        return(1.0/ (self.stdev * math.sqrt(2*math.pi))) *math.exp(-0.5*((x-self.mean)/ self.stdev)** 2)        
+        return(1.0/ (self.stdev * math.sqrt(2 * math.pi))) * math.exp(-0.5*((x-self.mean)/ self.stdev)** 2)        
 
     def plot_histogram_pdf(self, n_spaces = 50):
 
@@ -184,3 +184,36 @@ class Gaussian():
         plt.show()
 
         return x, y
+
+    def __add__(self, other):
+        
+        """Function to add together two Gaussian distributions
+        
+        Args:
+            other (Gaussian): Gaussian instance
+            
+        Returns:
+            Gaussian: Gaussian distribution
+            
+        """
+        
+        result = Gaussian()
+        result.mean = self.mean + other.mean
+        result.stdev = math.sqrt(self.stdev ** 2 + other.stdev ** 2)
+        
+        return result
+        
+        
+    def __repr__(self):
+    
+        """Function to output the characteristics of the Gaussian instance
+        
+        Args:
+            None
+        
+        Returns:
+            string: characteristics of the Gaussian
+        
+        """
+        
+        return "mean {}, standard deviation {}".format(self.mean, self.stdev)
